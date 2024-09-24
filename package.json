@@ -1,0 +1,31 @@
+{
+  "name": "topolino",
+  "version": "1.0.0",
+  "description": "Maze solver inspired by the Micromouse competition",
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "dev": "tsx --env-file=.env src/index.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dsouflis/topolino.git"
+  },
+  "author": "Dimitrios Souflis",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dsouflis/topolino/issues"
+  },
+  "homepage": "https://github.com/dsouflis/topolino#readme",
+  "dependencies": {
+    "@types/node": "^20.14.10",
+    "typescript": "^5.5.3",
+    "mocha": "^7.1.1",
+    "chai": "^4.2.0",
+    "@types/chai": "^4.2.11",
+    "@types/mocha": "^7.0.2"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.0"
+  }}
