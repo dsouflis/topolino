@@ -42,6 +42,84 @@ function drawMaze() {
   }
 }
 
+const corners = [
+  /* not above */[
+    /* not below */[
+      /* not left */[
+        /* not right */'o',
+        /* right */ '╶',
+      ],
+      /* left */[
+        /* not right */'╴',
+        /* right */ '─',
+      ],
+    ],
+    /* below */[
+      /* not left */[
+        /* not right */'╷',
+        /* right */ '┌',
+      ],
+      /* left */[
+        /* not right */'┐',
+        /* right */ '┬',
+      ],
+    ],
+  ],
+  /* above */[
+    /* not below */[
+      /* not left */[
+        /* not right */'╵',
+        /* right */ '└',
+      ],
+      /* left */[
+        /* not right */'┘',
+        /* right */ '┴',
+      ],
+    ],
+    /* below */[
+      /* not left */[
+        /* not right */'│',
+        /* right */ '├',
+      ],
+      /* left */[
+        /* not right */'┤',
+        /* right */ '┼',
+      ],
+    ],
+  ],
+];
+
+
+function drawBetterLines() {
+  for (let i = 0; i < maze.length; i++) {
+    const mazeElement = maze[i];
+    if (i % 2 !== 1) {
+      for (let j = 0; j < mazeElement.length; j++) {
+        if (j % 2 === 0) {
+          const wallAbove = maze?.[i - 1]?.[j] === '|' || maze?.[i - 1]?.[j] === '│' ? 1 : 0;
+          const wallBelow = maze?.[i + 1]?.[j] === '|' || maze?.[i + 1]?.[j] === '│'  ? 1 : 0;
+          const wallLeft = maze[i]?.[j - 1] === '-' || maze[i]?.[j - 1] === '─' ? 1 : 0;
+          const wallRight = maze[i]?.[j + 1] === '-' || maze[i]?.[j + 1] === '─' ? 1 : 0;
+          let corner = corners[wallAbove][wallBelow][wallLeft][wallRight];
+          if (corner) {
+            mazeElement[j] = corner;
+          }
+        } else {
+          if (mazeElement[j] === '-') {
+            mazeElement[j] = '─';
+          }
+        }
+      }
+    } else {
+      for (let j = 0; j < mazeElement.length; j++) {
+        if (mazeElement[j] === '|') {
+          mazeElement[j] = '│';
+        }
+      }
+    }
+  }
+}
+
 function drawWideMaze() {
   for (let i = 0; i < maze.length; i++) {
     const mazeElement = maze[i];
@@ -56,8 +134,8 @@ function drawWideMaze() {
     for (let j = 0; j < mazeElement.length; j++) {
       if(j % 2 === 0) {
         line += mazeElement[j];
-      } else if(mazeElement[j] === '-') {
-        line += '---';
+      } else if(mazeElement[j] === '-' || mazeElement[j] === '─') {
+        line += '───';
       } else {
         line += ' ' + mazeElement[j] + ' ';
       }
@@ -90,22 +168,22 @@ function markCellAt(row, column, mark) {
 
 function mazeWallLeft(row, column) {
   const mazeRowAtIndex = mazeRow(row);
-  return mazeRowAtIndex[2 * column] === '|';
+  return mazeRowAtIndex[2 * column] === '|' || mazeRowAtIndex[2 * column] === '│';
 }
 
 function mazeWallRight(row, column) {
   const mazeRowAtIndex = mazeRow(row);
-  return mazeRowAtIndex[2 * column + 2] === '|';
+  return mazeRowAtIndex[2 * column + 2] === '|' || mazeRowAtIndex[2 * column + 2] === '│';
 }
 
 function mazeWallAbove(row, column) {
   const mazeRowAtIndex = mazeRowAbove(row);
-  return mazeRowAtIndex[2 * column + 1] === '-';
+  return mazeRowAtIndex[2 * column + 1] === '-' || mazeRowAtIndex[2 * column + 1] === '─';
 }
 
 function mazeWallBelow(row, column) {
   const mazeRowAtIndex = mazeRowBelow(row);
-  return mazeRowAtIndex[2 * column + 1] === '-';
+  return mazeRowAtIndex[2 * column + 1] === '-' || mazeRowAtIndex[2 * column + 1] === '─';
 }
 
 function markMazeWallLeft(row, column, mark) {
@@ -395,6 +473,8 @@ function solve(initRow, initColumn) {
     }
   } while(move < 500);
 }
+
+drawBetterLines();
 
 drawWideMaze();
 
