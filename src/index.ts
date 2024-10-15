@@ -56,6 +56,8 @@ function drawWideMaze() {
     for (let j = 0; j < mazeElement.length; j++) {
       if(j % 2 === 0) {
         line += mazeElement[j];
+      } else if(mazeElement[j] === '-') {
+        line += '---';
       } else {
         line += ' ' + mazeElement[j] + ' ';
       }
